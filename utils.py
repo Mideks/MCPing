@@ -1,11 +1,11 @@
 import asyncio
 import logging
+from dataclasses import dataclass
 from typing import Optional
 
 import aiohttp
 from mcstatus import JavaServer
 from mcstatus.responses import JavaStatusResponse
-from typing_extensions import TypedDict
 
 from config import PORT_START, PORT_END, CONCURRENCY_LIMIT
 from config import TIMEOUT
@@ -13,7 +13,8 @@ from config import TIMEOUT
 logger = logging.getLogger(__name__)
 
 
-class ServerInfo(TypedDict):
+@dataclass
+class ServerInfo():
     ip: str
     port: int
     version: str
@@ -21,8 +22,8 @@ class ServerInfo(TypedDict):
     online: int
     max: int
     players: list[str]
-    country: str
-    icon: str
+    location: str
+    icon: Optional[str]
 
 
 async def get_location(ip: str) -> str:
@@ -39,7 +40,7 @@ async def get_location(ip: str) -> str:
                 data = await response.json()
 
                 if data.get("success") is True:
-                    country = data.get("country", "неизвестно")
+                    country = data.get("location", "неизвестно")
                     city = data.get("city", "")
                     return f"{country}{' / ' + city if city else ''}"
                 else:
@@ -67,7 +68,7 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
                 online=status.players.online,
                 max=status.players.max,
                 players=names,
-                country=location,
+                location=location,
                 icon=status.icon
             )
         except asyncio.TimeoutError:

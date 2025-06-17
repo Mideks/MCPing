@@ -68,7 +68,7 @@ function render(arr) {
       <td>${s.motd.replace('\n', '</br>')}</td>
       <td>${s.online}/${s.max}</td>
       <td>${s.players.join(', ')}</td>
-      <td>${s.country}</td>
+      <td>${s.location}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -100,7 +100,7 @@ function sort(col) {
 
   const numeric = false;
   data.sort((a, b) => {
-    const vals = [a.ip + ':' + a.port, a.version, a.motd, a.online + '/' + a.max, a.players, a.country];
+    const vals = [a.ip + ':' + a.port, a.version, a.motd, a.online + '/' + a.max, a.players, a.location];
     let x = (col === 1) ? a.ip + ':' + a.port : Object.values(a)[col];
     let y = (col === 1) ? b.ip + ':' + b.port : Object.values(b)[col];
 
