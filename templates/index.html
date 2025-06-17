@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Minecraft Серверы</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+<h1>Список Minecraft-серверов</h1>
+<div class="search-container">
+    <input type="text" id="search" placeholder="🔍 Поиск по таблице..." oninput="filter()">
+    <button onclick="load()">Обновить</button>
+</div>
+
+<table id="servers">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th class="sortable" onclick="sort(0)">Адрес</th>
+        <th class="sortable" onclick="sort(1)">Версия</th>
+        <th>Иконка</th>
+        <th class="sortable" onclick="sort(2)">MOTD</th>
+        <th class="sortable" onclick="sort(3)">Онлайн</th>
+        <th>Игроки</th>
+        <th>Страна</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<script src="{{ url_for('static', path='/script.js') }}"></script>
+</body>
+</html>
