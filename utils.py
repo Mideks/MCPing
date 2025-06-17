@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from dataclasses import dataclass
 from typing import Optional
 
 import aiohttp
@@ -9,21 +8,9 @@ from mcstatus.responses import JavaStatusResponse
 
 from config import PORT_START, PORT_END, CONCURRENCY_LIMIT
 from config import TIMEOUT
+from models import ServerInfo
 
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class ServerInfo():
-    ip: str
-    port: int
-    version: str
-    motd: str
-    online: int
-    max: int
-    players: list[str]
-    location: str
-    icon: Optional[str]
 
 
 async def get_location(ip: str) -> str:

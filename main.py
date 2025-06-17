@@ -1,7 +1,8 @@
 import asyncio
 
 from config import TARGET_IPS
-from utils import ServerInfo, scan_ip
+from utils import scan_ip
+from models import ServerInfo
 
 servers = []
 

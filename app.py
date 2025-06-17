@@ -10,7 +10,8 @@ from fastapi.staticfiles import StaticFiles
 
 
 from config import TARGET_IPS
-from utils import scan_ip, ServerInfo
+from utils import scan_ip
+from models import ServerInfo
 
 app = FastAPI()
 
