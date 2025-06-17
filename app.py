@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 
 from config import TARGET_IPS
-from utils import scan_ip, ServerInfo, strip_ansi
+from utils import scan_ip, ServerInfo
 
 app = FastAPI()
 
@@ -34,8 +34,6 @@ async def api_servers():
     servers: list[ServerInfo] = []
     for ip in TARGET_IPS:
         results = await scan_ip(ip)
-        for result in results:
-            result["motd"] = strip_ansi(result["motd"])
         servers.extend(results)
     return {"servers": servers}
 
