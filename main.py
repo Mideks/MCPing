@@ -7,14 +7,14 @@ from models import ServerInfo
 servers = []
 
 def print_server_info(info: ServerInfo):
-    print(f"🟢 {info['ip']}:{info['port']} — сервер найден!")
-    print(f"   ➤ Версия: {info['version']}")
-    print(f"   ➤ MOTD: {info['motd']}")
-    print(f"   ➤ Онлайн: {info['online']} / {info['max']}")
+    print(f"🟢 {info.ip}:{info.port} — сервер найден!")
+    print(f"   ➤ Версия: {info.version}")
+    print(f"   ➤ MOTD: {info.motd}")
+    print(f"   ➤ Онлайн: {info.online} / {info.max}")
 
-    if info["players"]:
+    if info.players:
         print("   ➤ Игроки онлайн:")
-        for player in info["players"]:
+        for player in info.players:
             print(f"      • {player}")
 
 

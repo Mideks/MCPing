@@ -6,8 +6,7 @@ import aiohttp
 from mcstatus import JavaServer
 from mcstatus.responses import JavaStatusResponse
 
-from config import PORT_START, PORT_END, CONCURRENCY_LIMIT
-from config import TIMEOUT
+from config import PORT_START, PORT_END, CONCURRENCY_LIMIT, TIMEOUT
 from models import ServerInfo
 
 logger = logging.getLogger(__name__)
