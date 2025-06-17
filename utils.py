@@ -62,14 +62,17 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
             return None
 
 
-async def scan_ip(ip: str) -> list[ServerInfo]:
-    location = await get_location(ip)
-    print(f"🔍 Сканирование {ip} ({location}) порты {PORT_START}–{PORT_END}")
+async def scan_ips(ips: list[str]) -> list[ServerInfo]:
     sem = asyncio.Semaphore(CONCURRENCY_LIMIT)
-    tasks = [
-        mc_ping(ip, port, sem, location)
-        for port in range(PORT_START, PORT_END + 1)
-    ]
+    tasks = []
+    for ip in ips:
+        location = await get_location(ip)
+        print(f"🔍 Сканирование {ip} ({location}) порты {PORT_START}–{PORT_END}")
+        tasks.extend([
+            mc_ping(ip, port, sem, location)
+            for port in range(PORT_START, PORT_END + 1)
+        ])
+
     results = await asyncio.gather(*tasks)
     found = [r for r in results if r is not None]
     return found

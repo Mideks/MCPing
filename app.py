@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 
 from config import TARGET_IPS
-from utils import scan_ip
+from utils import scan_ips
 from models import ServerInfo
 
 app = FastAPI()
@@ -33,9 +33,8 @@ def index(request: Request):
 @app.get("/servers")
 async def api_servers():
     servers: list[ServerInfo] = []
-    for ip in TARGET_IPS:
-        results = await scan_ip(ip)
-        servers.extend(results)
+    results = await scan_ips(TARGET_IPS)
+    servers.extend(results)
     return {"servers": servers}
 
 
