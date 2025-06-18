@@ -1,6 +1,6 @@
 import asyncio
 
-from config import TARGET_IPS
+from settings import settings
 from utils import scan_ips
 from models import ServerInfo
 
@@ -19,8 +19,8 @@ def print_server_info(info: ServerInfo):
 
 
 async def main():
-    for i, ip in enumerate(TARGET_IPS, 1):
-        print(f"\n[{i}/{len(TARGET_IPS)}] ", end="")
+    for i, ip in enumerate(settings.target_ips, 1):
+        print(f"\n[{i}/{len(settings.target_ips)}] ", end="")
         new_servers = await scan_ips([ip])
         servers.extend(new_servers)
         for new_server in new_servers:

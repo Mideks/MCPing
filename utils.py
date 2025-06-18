@@ -6,8 +6,8 @@ import aiohttp
 from mcstatus import JavaServer
 from mcstatus.responses import JavaStatusResponse
 
-from config import PORT_START, PORT_END, CONCURRENCY_LIMIT, TIMEOUT
 from models import ServerInfo
+from settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
     async with sem:
         try:
             server = JavaServer(ip, port)
-            status: JavaStatusResponse = await asyncio.wait_for(server.async_status(), timeout=TIMEOUT)
+            status: JavaStatusResponse = await asyncio.wait_for(server.async_status(), timeout=settings.timeout)
             names = [p.name for p in (status.players.sample or [])]
 
             return ServerInfo(
@@ -63,14 +63,14 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
 
 
 async def scan_ips(ips: list[str]) -> list[ServerInfo]:
-    sem = asyncio.Semaphore(CONCURRENCY_LIMIT)
+    sem = asyncio.Semaphore(settings.concurrency_limit)
     tasks = []
     for ip in ips:
         location = await get_location(ip)
-        print(f"🔍 Сканирование {ip} ({location}) порты {PORT_START}–{PORT_END}")
+        print(f"🔍 Сканирование {ip} ({location}) порты {settings.port_start}–{settings.port_end}")
         tasks.extend([
             mc_ping(ip, port, sem, location)
-            for port in range(PORT_START, PORT_END + 1)
+            for port in range(settings.port_start, settings.port_end + 1)
         ])
 
     results = await asyncio.gather(*tasks)

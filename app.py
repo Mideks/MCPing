@@ -1,7 +1,6 @@
 import os
 import sys
 import threading
-from dataclasses import dataclass
 
 import uvicorn
 from fastapi import FastAPI, Request
@@ -9,7 +8,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-from config import TARGET_IPS
+from settings import Settings, settings
 from utils import scan_ips
 from models import ServerInfo
 
@@ -25,35 +24,19 @@ else:
 templates = Jinja2Templates(directory=os.path.join(base_dir, "templates"))
 app.mount("/static", StaticFiles(directory=os.path.join(base_dir, "static")), name="static")
 
-@dataclass
-class Settings():
-    target_ips: list[str]
-    port_start: int
-    port_end: int
-    timeout: float
-    concurrency_limit: int
-
-
-settings_data = Settings(
-    target_ips=[
-        "51.75.167.121", "148.251.56.99", "135.181.49.9",
-        "88.198.26.90", "51.161.201.179", "139.99.71.89",
-        "135.148.104.247", "51.81.251.246"
-    ],
-    port_start=25565,
-    port_end=25665,
-    timeout=0.5,
-    concurrency_limit=1000
-)
 
 @app.get("/settings")
 def get_settings():
-    return settings_data
+    return settings
 
 @app.post("/settings")
 def update_settings(new_settings: Settings):
-    global settings_data
-    settings_data = new_settings
+    settings.target_ips = new_settings.target_ips
+    settings.port_start = new_settings.port_start
+    settings.port_end = new_settings.port_end
+    settings.timeout = new_settings.timeout
+    settings.concurrency_limit = new_settings.concurrency_limit
+    settings.save()
     return {"status": "ok"}
 
 
@@ -64,7 +47,7 @@ def index(request: Request):
 @app.get("/servers")
 async def api_servers():
     servers: list[ServerInfo] = []
-    results = await scan_ips(TARGET_IPS)
+    results = await scan_ips(settings.target_ips)
     servers.extend(results)
     return {"servers": servers}
 
