@@ -60,6 +60,9 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
         except asyncio.TimeoutError:
             logger.info(f"[!] {ip}:{port} — не отвечает")
             return None
+        except Exception as e:
+            logger.error(f"{ip}:{port} - ошибка: {e}")
+            return None
 
 
 async def scan_ips(ips: list[str]) -> list[ServerInfo]:
