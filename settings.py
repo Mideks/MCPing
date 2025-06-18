@@ -14,7 +14,7 @@ class Settings(BaseModel):
     ])
     port_start: int = 25565
     port_end: int = 25665
-    timeout: float = 0.5
+    timeout: float = 2.5
     concurrency_limit: int = 1000
 
     @classmethod
