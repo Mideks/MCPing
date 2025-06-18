@@ -12,4 +12,5 @@ class ServerInfo():
     max: int
     players: list[str]
     location: str
+    ping: int
     icon: Optional[str]

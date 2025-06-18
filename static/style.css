@@ -1,9 +1,12 @@
 body {
     font-family: sans-serif;
     background-color: #f8f9fa;
-    padding: 40px;
+    padding: 10px;
 }
-
+main {
+    width: 80%;
+    margin: 0 auto;
+}
 body:has(dialog[open]) {
   overflow: hidden;
 }
@@ -12,13 +15,7 @@ h1 {
     text-align: center;
     color: #333;
 }
-#search {
-    margin-bottom: 20px;
-    padding: 10px;
-    width: 100%;
-    max-width: 400px;
-    font-size: 16px;
-}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -38,9 +35,31 @@ th {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
-td.motd {
-    white-space: pre-wrap;
+
+.info-cell {
+  white-space: nowrap;
 }
+.icon-motd {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.icon-motd img {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.icon-motd .motd{
+  line-height: 1.4;
+  text-align: left
+}
+
 .hidden {
     display: none;
 }
@@ -62,14 +81,29 @@ th.sortable.asc::after {
 th.sortable.desc::after {
     border-top-color: white;
 }
-.search-container {
-    text-align: center;
-    margin-bottom: 20px;
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
-#search {
-    width: 50%;
-    max-width: 400px;
+.controls--buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.controls--buttons button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.controls--search-container input {
+    max-width: 600px;
+    min-width: 300px;
     padding: 10px 15px;
     font-size: 16px;
     border: 2px solid #666;
@@ -80,7 +114,7 @@ th.sortable.desc::after {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-#search:focus {
+.controls--search-container input:focus {
     box-shadow: 0 0 8px #4a90e2;
     background-color: #fff;
     border-color: #4a90e2;
@@ -91,13 +125,15 @@ button {
     font-size: 16px;
     border: none;
     border-radius: 4px;
-    background: #3498db;
+    //background: #3498db;
+    background: #444;
     color: #fff;
     cursor: pointer;
 }
 
 button:hover {
-    background: #2980b9;
+    //background: #2980b9;
+    background: #666;
 }
 
 /* Загрузка: контейнер */
@@ -250,22 +286,7 @@ header h1 {
   opacity: 1;
 }
 
-#open-settings {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 8px 14px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  background-color: #444;
-  color: white;
-  border-radius: 4px;
-}
 
-#open-settings:hover {
-  background-color: #666;
-}
 
 .toast {
   visibility: hidden;

@@ -59,16 +59,20 @@ function render(arr) {
   tbody.innerHTML = '';
   arr.forEach((s, i) => {
     const tr = document.createElement('tr');
-    const icon = s.icon ? `<img src=${s.icon} alt="server icon"/>` : "Нет иконки";
+    const icon_url = s.icon ? s.icon : "/static/default_icon.png" ;
     tr.innerHTML = `
       <td>${i+1}</td>
-      <td>${s.ip}:${s.port}</td>
+      <td class="info-cell">
+        ${s.ip}:${s.port}</br>
+        ${s.location}</br>
+        ping: ${s.ping} ms</br>
+      </td>
       <td>${s.version}</td>
-      <td>${icon}</td>
-      <td>${s.motd.replace('\n', '</br>')}</td>
-      <td>${s.online}/${s.max}</td>
-      <td>${s.players.join(', ')}</td>
-      <td>${s.location}</td>
+      <td class="icon-motd">
+        <img src="${icon_url}" alt="server icon" />
+        <div class="motd">${s.motd.replace('\n', '<br>')}</div>
+      </td>
+      <td>${s.online}/${s.max}<br/>${s.players.join(', ')}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -100,9 +104,9 @@ function sort(col) {
 
   const numeric = false;
   data.sort((a, b) => {
-    const vals = [a.ip + ':' + a.port, a.version, a.motd, a.online + '/' + a.max, a.players, a.location];
-    let x = (col === 1) ? a.ip + ':' + a.port : Object.values(a)[col];
-    let y = (col === 1) ? b.ip + ':' + b.port : Object.values(b)[col];
+    const vals = ['ping', 'version', 'motd', 'online', 'location'];
+    let x = a[vals[col]];
+    let y = b[vals[col]];
 
     if (numeric) {
       const xn = parseFloat(x), yn = parseFloat(y);
@@ -117,7 +121,7 @@ function sort(col) {
 }
 
 // грузим сразу при старте
-window.onload = loadServers;
+// window.onload = loadServers;
 
 let settings = {};
 async function fetchSettings() {

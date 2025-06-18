@@ -10,8 +10,8 @@
 <!-- Кнопка открытия модального окна -->
 <header>
     <h1>Список открытых Minecraft-серверов StickyPiston.co</h1>
-    <button id="open-settings" onclick="showSettings()">⚙️ Настройки</button>
 </header>
+
 
 <!-- Модалка -->
 <dialog id="settings-modal" onmousedown="event.target==this && this.close()">
@@ -46,26 +46,30 @@
 </dialog>
 <div id="toast" class="toast"></div>
 
-<div class="search-container">
-    <input type="text" id="search" placeholder="🔍 Поиск по таблице..." oninput="filter()">
-    <button onclick="loadServers()">Обновить</button>
-</div>
+<main>
+    <div class="controls">
+        <div class="controls--search-container">
+            <input type="text" id="search" placeholder="🔍 Поиск по таблице..." oninput="filter()">
+        </div>
+        <div class="controls--buttons">
+            <button onclick="loadServers()">Обновить список</button>
+            <button id="open-settings" onclick="showSettings()">⚙️ Настройки</button>
+        </div>
+    </div>
 
-<table id="servers">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th class="sortable" onclick="sort(0)">Адрес</th>
-        <th class="sortable" onclick="sort(1)">Версия</th>
-        <th>Иконка</th>
-        <th class="sortable" onclick="sort(2)">MOTD</th>
-        <th class="sortable" onclick="sort(3)">Онлайн</th>
-        <th>Игроки</th>
-        <th>Страна</th>
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+    <table id="servers">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="sortable" onclick="sort(0)">Адрес</th>
+            <th class="sortable" onclick="sort(1)">Версия</th>
+            <th class="sortable" onclick="sort(2)">Описание</th>
+            <th class="sortable" onclick="sort(3)">Онлайн</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</main>
 <script src="{{ url_for('static', path='/script.js') }}"></script>
 </body>
 </html>

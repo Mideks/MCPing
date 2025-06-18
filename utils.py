@@ -43,7 +43,8 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
     async with sem:
         try:
             server = JavaServer(ip, port)
-            status: JavaStatusResponse = await asyncio.wait_for(server.async_status(), timeout=settings.timeout)
+            status = await asyncio.wait_for(server.async_status(), timeout=settings.timeout)
+            ping = server.ping()
             names = [p.name for p in (status.players.sample or [])]
 
             return ServerInfo(
@@ -55,6 +56,7 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
                 max=status.players.max,
                 players=names,
                 location=location,
+                ping=int(ping),
                 icon=status.icon
             )
         except asyncio.TimeoutError:
