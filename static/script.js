@@ -225,15 +225,30 @@ function createTag(ip) {
   return tag;
 }
 
+const errorEl = document.getElementById('ip-error');
+
+function showError(message) {
+  errorEl.textContent = message;
+  errorEl.classList.add('show');
+}
+
+function hideError() {
+  errorEl.textContent = '';
+  errorEl.classList.remove('show');
+}
+
 function addIP(ip) {
   if (!isValidIP(ip)) {
-    showToast('Неправильный формат IP!');
+    showError('Неправильный формат IP!');
     return;
   }
   if (ipSet.has(ip)) {
-    showToast('Этот IP уже добавлен');
+    showError('Этот IP уже добавлен');
     return;
   }
+
+  // Всё хорошо — скрываем ошибку
+  hideError();
 
   const tag = createTag(ip);
   ipTagsContainer.appendChild(tag);
