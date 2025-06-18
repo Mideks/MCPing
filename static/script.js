@@ -26,7 +26,7 @@ function showLoading() {
   tbody.appendChild(tr);
 }
 
-async function load() {
+async function loadServers() {
   // пока грузим — показываем loading и блокируем кнопку
   showLoading();
   document.querySelector('button').disabled = true;
@@ -117,4 +117,71 @@ function sort(col) {
 }
 
 // грузим сразу при старте
-window.onload = load;
+window.onload = loadServers;
+
+let settings = {};
+async function fetchSettings() {
+    const res = await fetch("/settings");
+    settings = await res.json();
+}
+
+async function renderSettings() {
+    const form = document.getElementById("settings-form");
+    try {
+      form.ips.value = settings.target_ips.join(", ");
+      form.port_start.value = settings.port_start;
+      form.port_end.value = settings.port_end;
+      form.timeout.value = settings.timeout;
+      form.concurrency_limit.value = settings.concurrency_limit;
+    } catch (e) {
+      console.error("Ошибка загрузки настроек", e);
+    }
+  }
+
+async function showSettings() {
+    const settingsDialog = document.getElementById("settings-modal");
+    settingsDialog.showModal();
+    await fetchSettings();
+    renderSettings();
+
+}
+
+function closeSettings() {
+    const settingsDialog = document.getElementById("settings-modal");
+    settingsDialog.close()
+}
+
+ async function submitSettings(e) {
+    if (e) e.preventDefault();
+    const form = document.getElementById("settings-form");
+
+    const body = {
+      target_ips: form.ips.value.split(",").map(ip => ip.trim()),
+      port_start: parseInt(form.port_start.value),
+      port_end: parseInt(form.port_end.value),
+      timeout: parseFloat(form.timeout.value),
+      concurrency_limit: parseInt(form.concurrency_limit.value)
+    };
+
+    try {
+      await fetch("/settings", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body)
+      });
+      showToast("Настройки сохранены!");
+    } catch (e) {
+      showToast("Ошибка при сохранении настроек");
+      console.error(e);
+    }
+ }
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}

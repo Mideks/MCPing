@@ -6,10 +6,44 @@
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
 </head>
 <body>
-<h1>Список Minecraft-серверов</h1>
+
+<!-- Кнопка открытия модального окна -->
+<header>
+  <h1>Список открытых Minecraft-серверов StickyPiston.co</h1>
+  <button id="open-settings" onclick="showSettings()">⚙️ Настройки</button>
+</header>
+
+<!-- Модалка -->
+<dialog id="settings-modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeSettings()">&times;</span>
+
+    <h2>Настройки</h2>
+    <form id="settings-form" method="dialog" onsubmit="submitSettings()">
+      <label for="ips">Целевые IP</label>
+      <textarea id="ips" rows="3"></textarea>
+
+      <label for="port_start">Начальный порт</label>
+      <input type="number" id="port_start">
+
+      <label for="port_end">Конечный порт</label>
+      <input type="number" id="port_end">
+
+      <label for="timeout">Таймаут (сек)</label>
+      <input type="number" step="0.1" id="timeout">
+
+      <label for="concurrency_limit">Лимит подключений</label>
+      <input type="number" id="concurrency_limit">
+
+      <button type="submit">Сохранить</button>
+    </form>
+  </div>
+</dialog>
+<div id="toast" class="toast"></div>
+
 <div class="search-container">
     <input type="text" id="search" placeholder="🔍 Поиск по таблице..." oninput="filter()">
-    <button onclick="load()">Обновить</button>
+    <button onclick="loadServers()">Обновить</button>
 </div>
 
 <table id="servers">

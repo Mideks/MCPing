@@ -1,13 +1,13 @@
 import os
 import sys
 import threading
+from dataclasses import dataclass
 
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-
 
 from config import TARGET_IPS
 from utils import scan_ips
@@ -23,7 +23,38 @@ else:
     base_dir = os.path.dirname(os.path.abspath(__file__))
 
 templates = Jinja2Templates(directory=os.path.join(base_dir, "templates"))
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(base_dir, "static")), name="static")
+
+@dataclass
+class Settings():
+    target_ips: list[str]
+    port_start: int
+    port_end: int
+    timeout: float
+    concurrency_limit: int
+
+
+settings_data = Settings(
+    target_ips=[
+        "51.75.167.121", "148.251.56.99", "135.181.49.9",
+        "88.198.26.90", "51.161.201.179", "139.99.71.89",
+        "135.148.104.247", "51.81.251.246"
+    ],
+    port_start=25565,
+    port_end=25665,
+    timeout=0.5,
+    concurrency_limit=1000
+)
+
+@app.get("/settings")
+def get_settings():
+    return settings_data
+
+@app.post("/settings")
+def update_settings(new_settings: Settings):
+    global settings_data
+    settings_data = new_settings
+    return {"status": "ok"}
 
 
 @app.get("/", response_class=HTMLResponse)
