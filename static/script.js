@@ -125,16 +125,23 @@ async function fetchSettings() {
     settings = await res.json();
 }
 
+const ipTagsContainer = document.getElementById('ip-tags-container');
+
 async function renderSettings() {
     const form = document.getElementById("settings-form");
     try {
-      form.ips.value = settings.target_ips.join(", ");
+      ipSet.clear();
+      ipTagsContainer.innerHTML = "";
+      console.log(settings.target_ips)
+      settings.target_ips.forEach(ip => addIP(ip));
+
       form.port_start.value = settings.port_start;
       form.port_end.value = settings.port_end;
       form.timeout.value = settings.timeout;
       form.concurrency_limit.value = settings.concurrency_limit;
     } catch (e) {
       console.error("Ошибка загрузки настроек", e);
+      showToast("Ошибка загрузки настроек")
     }
   }
 
@@ -156,7 +163,7 @@ function closeSettings() {
     const form = document.getElementById("settings-form");
 
     const body = {
-      target_ips: form.ips.value.split(",").map(ip => ip.trim()),
+      target_ips: getIPsFromTags(),
       port_start: parseInt(form.port_start.value),
       port_end: parseInt(form.port_end.value),
       timeout: parseFloat(form.timeout.value),
@@ -184,4 +191,65 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.remove("show");
   }, 3000);
+}
+
+const ipInput = document.getElementById('ip-input');
+const addIpBtn = document.getElementById('add-ip-btn');
+
+const ipSet = new Set();
+
+function isValidIP(ip) {
+  // Простая проверка IPv4, без поддержки IPv6
+  const parts = ip.trim().split('.');
+  if (parts.length !== 4) return false;
+  return parts.every(part => {
+    const n = Number(part);
+    return !isNaN(n) && n >= 0 && n <= 255 && part === n.toString();
+  });
+}
+
+function createTag(ip) {
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.textContent = ip;
+
+  const removeBtn = document.createElement('span');
+  removeBtn.className = 'remove-tag';
+  removeBtn.textContent = '×';
+  removeBtn.onclick = () => {
+    ipTagsContainer.removeChild(tag);
+    ipSet.delete(ip);
+  };
+
+  tag.appendChild(removeBtn);
+  return tag;
+}
+
+function addIP(ip) {
+  if (!isValidIP(ip)) {
+    showToast('Неправильный формат IP!');
+    return;
+  }
+  if (ipSet.has(ip)) {
+    showToast('Этот IP уже добавлен');
+    return;
+  }
+
+  const tag = createTag(ip);
+  ipTagsContainer.appendChild(tag);
+  ipSet.add(ip);
+  ipInput.value = '';
+}
+
+addIpBtn.addEventListener('click', e => addIP(ipInput.value.trim()));
+
+ipInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addIP(ipInput.value.trim());
+  }
+});
+
+function getIPsFromTags() {
+  return Array.from(ipSet);
 }

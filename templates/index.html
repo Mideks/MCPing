@@ -9,8 +9,8 @@
 
 <!-- Кнопка открытия модального окна -->
 <header>
-  <h1>Список открытых Minecraft-серверов StickyPiston.co</h1>
-  <button id="open-settings" onclick="showSettings()">⚙️ Настройки</button>
+    <h1>Список открытых Minecraft-серверов StickyPiston.co</h1>
+    <button id="open-settings" onclick="showSettings()">⚙️ Настройки</button>
 </header>
 
 <!-- Модалка -->
@@ -18,26 +18,30 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeSettings()">&times;</span>
 
-    <h2>Настройки</h2>
-    <form id="settings-form" method="dialog" onsubmit="submitSettings()">
-      <label for="ips">Целевые IP</label>
-      <textarea id="ips" rows="3"></textarea>
+        <h2>Настройки</h2>
+        <form id="settings-form" method="dialog" onsubmit="submitSettings()">
+            <label for="ips">Целевые IP</label>
+            <div id="ip-tags-container" class="tags-container"></div>
+            <div class="ip-input-row">
+                <input type="text" id="ip-input" placeholder="Введите IP и нажмите Enter или +">
+                <button type="button" id="add-ip-btn">+</button>
+            </div>
 
-      <label for="port_start">Начальный порт</label>
-      <input type="number" id="port_start">
+            <label for="port_start">Начальный порт</label>
+            <input type="number" id="port_start">
 
-      <label for="port_end">Конечный порт</label>
-      <input type="number" id="port_end">
+            <label for="port_end">Конечный порт</label>
+            <input type="number" id="port_end">
 
-      <label for="timeout">Таймаут (сек)</label>
-      <input type="number" step="0.1" id="timeout">
+            <label for="timeout">Таймаут (сек)</label>
+            <input type="number" step="0.1" id="timeout">
 
-      <label for="concurrency_limit">Лимит подключений</label>
-      <input type="number" id="concurrency_limit">
+            <label for="concurrency_limit">Лимит подключений</label>
+            <input type="number" id="concurrency_limit">
 
-      <button type="submit">Сохранить</button>
-    </form>
-  </div>
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
 </dialog>
 <div id="toast" class="toast"></div>
 

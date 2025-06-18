@@ -273,3 +273,53 @@ header h1 {
   visibility: visible;
   opacity: 1;
 }
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  user-select: none;
+}
+
+.tag .remove-tag {
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ip-input-row {
+  margin-top: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+#ip-input {
+  flex-grow: 1;
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#add-ip-btn {
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
