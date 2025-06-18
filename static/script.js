@@ -43,7 +43,7 @@ async function loadServers() {
     tbody.innerHTML = '';
     const tr = document.createElement('tr');
     const td = document.createElement('td');
-    td.colSpan = 7;
+    td.colSpan = 8;
     td.style.textAlign = 'center';
     td.style.color = 'red';
     td.textContent = 'Ошибка: ' + e.message;
