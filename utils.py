@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 async def get_location(ip: str) -> str:
-    url = f"http://ipwho.is/{ip}"
+    url = f"http://ipwho.is/{ip}?lang=ru"
     headers = {"User-Agent": "Mozilla/5.0"}
 
     try:
@@ -26,7 +26,7 @@ async def get_location(ip: str) -> str:
                 data = await response.json()
 
                 if data.get("success") is True:
-                    country = data.get("location", "неизвестно")
+                    country = data.get("country", "неизвестно")
                     city = data.get("city", "")
                     return f"{country}{' / ' + city if city else ''}"
                 else:
