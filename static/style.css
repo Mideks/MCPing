@@ -138,6 +138,10 @@ dialog {
   border: none;
 }
 
+dialog::backdrop {
+    backdrop-filter: blur(2px);
+}
+
 .modal-content {
   background-color: #fff;
   padding: 24px;

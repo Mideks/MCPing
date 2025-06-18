@@ -14,9 +14,9 @@
 </header>
 
 <!-- Модалка -->
-<dialog id="settings-modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeSettings()">&times;</span>
+<dialog id="settings-modal" onmousedown="event.target==this && this.close()">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeSettings()">&times;</span>
 
     <h2>Настройки</h2>
     <form id="settings-form" method="dialog" onsubmit="submitSettings()">
