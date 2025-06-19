@@ -63,6 +63,73 @@
   --color-shadow-strong: rgba(0, 0, 0, 0.8);
   --color-shadow-focus: rgba(255, 255, 255, 0.1);
 }
+
+[data-theme="minecraft"] {
+--color-background: #1e2b1b;            /* общий фон — тёмно-зелёный/землистый */
+--color-surface: #2e3d27;               /* карточки/модалки — чуть светлее фона */
+--color-surface-muted: #263522;         /* чередование строк, ховеры — слегка приглушённый */
+--color-surface-overlay: rgba(46, 61, 39, 0.9); /* input'ы и полупрозрачные элементы */
+
+--color-text-primary: #dfe9d3;          /* основной текст — почти белый с лёгким зелёным оттенком */
+--color-text-secondary: #aebfa3;        /* вторичный текст */
+--color-text-inverse: #1e2b1b;          /* текст на светлом фоне — тёмный зелёный */
+--color-text-error: #e07a5f;            /* ошибка — землянистый красный, не ядовитый */
+
+--color-border: #3c4f36;                /* обычная рамка — в тему */
+--color-border-muted: #445843;          /* чуть мягче — для таблиц */
+--color-border-focus: #88c57f;          /* фокус — мшистый лаймовый */
+--color-border-focus-shadow: rgba(136, 197, 127, 0.3); /* подсветка в фокусе */
+
+--color-primary: #6baa4d;               /* основной зелёный — как трава */
+--color-primary-hover: #58943f;         /* при наведении — чуть темнее */
+--color-accent: #9ddc8b;                /* яркий, но мягкий акцент */
+
+--color-button-bg: var(--color-primary);
+--color-button-hover: var(--color-primary-hover);
+
+--color-toast-bg: #354b2d;              /* уведомление — будто табличка у входа в хижину */
+
+--color-spinner-base: #88a67f;
+--color-spinner-top: #dfe9d3;
+
+--color-shadow: rgba(0, 0, 0, 0.2);
+--color-shadow-strong: rgba(0, 0, 0, 0.5);
+--color-shadow-focus: rgba(136, 197, 127, 0.25);
+}
+
+[data-theme="vulkan"] {
+    --color-background: #2e1b1b;            /* тёмный винный – фон */
+    --color-surface: #3b2323;               /* чуть светлее – для карточек/модалок */
+    --color-surface-muted: #4a2c2c;         /* для плоских элементов */
+    --color-surface-overlay: rgba(59, 35, 35, 0.85); /* полупрозрачный, глубокий бордо */
+
+    --color-text-primary: #f2e8e8;          /* почти белый, но с тёплым подтоном */
+    --color-text-secondary: #c2aaaa;        /* мягкий розовато-серый */
+    --color-text-inverse: #2e1b1b;          /* текст на светлом фоне – винный */
+    --color-text-error: #ff7b6b;            /* акцент ошибки – не яд, а тёплый коралловый */
+
+    --color-border: #5a3a3a;                /* стандартная рамка */
+    --color-border-muted: #6e4a4a;          /* чуть мягче */
+    --color-border-focus: #ff8a65;          /* акцент — терракотовый оранжево-красный */
+    --color-border-focus-shadow: rgba(255, 138, 101, 0.3);
+
+    --color-primary: #c0392b;               /* основной акцент – красный, но благородный */
+    --color-primary-hover: #992d22;         /* при наведении – темнее, насыщеннее */
+    --color-accent: #e57373;                /* дополнительный акцент – мягкая пастельная роза */
+
+    --color-button-bg: var(--color-primary);
+    --color-button-hover: var(--color-primary-hover);
+
+    --color-toast-bg: #4b2d2d;              /* фон для уведомлений */
+
+    --color-spinner-base: #a05b5b;
+    --color-spinner-top: #f2e8e8;
+
+    --color-shadow: rgba(0, 0, 0, 0.2);
+    --color-shadow-strong: rgba(0, 0, 0, 0.5);
+    --color-shadow-focus: rgba(255, 138, 101, 0.25);
+}
+
 html {
     scrollbar-gutter: stable;
 }

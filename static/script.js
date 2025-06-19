@@ -278,19 +278,31 @@ function getIPsFromTags() {
 }
 
 const toggleBtn = document.getElementById('theme-toggle');
-  const currentTheme = localStorage.getItem('theme');
+const themes = ['light', 'dark', 'minecraft', 'vulkan'];
 
-  if (currentTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
+function getNextTheme(current) {
+  const index = themes.indexOf(current);
+  return themes[(index + 1) % themes.length];
+}
+
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.removeItem('theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
   }
-  function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    if (isDark) {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.removeItem('theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
-    }
-  }
-  toggleBtn.addEventListener('click', toggleTheme);
+}
+
+// При загрузке страницы применяем сохранённую тему
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+// При клике – переключаем на следующую тему
+toggleBtn.addEventListener('click', () => {
+  const current = localStorage.getItem('theme') || 'light';
+  const next = getNextTheme(current);
+  applyTheme(next);
+  showToast(`Выбрана тема ${next}`);
+});
