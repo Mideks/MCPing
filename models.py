@@ -14,3 +14,4 @@ class ServerInfo():
     location: str
     ping: int
     icon: Optional[str]
+    map_link: str

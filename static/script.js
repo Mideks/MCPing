@@ -60,12 +60,7 @@ function render(arr) {
   arr.forEach((s, i) => {
     const tr = document.createElement('tr');
     const icon_url = s.icon ? s.icon : "/static/default_icon.png" ;
-    const map_name = s.motd
-        .replace("Hosted by StickyPiston.co", "")
-        .split("by")[0]
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-zA-Z0-9]/g, '');
+
     tr.innerHTML = `
       <td>${i+1}</td>
       <td class="info-cell">
@@ -78,7 +73,7 @@ function render(arr) {
         <img src="${icon_url}" alt="server icon" />
         <div class="motd">
             ${s.motd.replace('\n', '<br>')}</br>
-            <a href='https://trial.stickypiston.co/map/${map_name}'>Возможная ссылка на карту</a>
+            <a href='${s.map_link}'>Возможная ссылка на карту</a>
         </div>
       </td>
       <td>${s.online}/${s.max}<br/>${s.players.join(', ')}</td>

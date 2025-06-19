@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import re
 from typing import Optional
 
 import aiohttp
@@ -46,18 +47,25 @@ async def mc_ping(ip: str, port: int, sem: asyncio.Semaphore, location: str) -> 
             status = await asyncio.wait_for(server.async_status(), timeout=settings.timeout)
             ping = server.ping()
             names = [p.name for p in (status.players.sample or [])]
+            motd = status.motd.to_plain()
+            map_name = (
+                motd.replace("Hosted by StickyPiston.co", "")
+               .split("by")[0].strip().lower().replace(" ", ""))
+            map_name = re.sub(r'[^a-zA-Z0-9]', '', map_name)
+            map_link = f"https://trial.stickypiston.co/map/{map_name}"
 
             return ServerInfo(
                 ip=ip,
                 port=port,
                 version=status.version.name,
-                motd=status.motd.to_plain(),
+                motd=motd,
                 online=status.players.online,
                 max=status.players.max,
                 players=names,
                 location=location,
                 ping=int(ping),
-                icon=status.icon
+                icon=status.icon,
+                map_link=map_link
             )
         except asyncio.TimeoutError:
             logger.info(f"[!] {ip}:{port} — не отвечает")
