@@ -191,16 +191,20 @@ function closeSettings() {
     }
  }
 
-function showToast(message) {
-  const toast = document.getElementById("toast");
+function showToast(message, duration = 3000) {
+  const container = document.getElementById("toast-container");
+
+  const toast = document.createElement("div");
+  toast.className = "toast show";
   toast.textContent = message;
-  toast.classList.add("show");
+
+  container.appendChild(toast);
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 3000);
+    toast.addEventListener("transitionend", () => toast.remove());
+  }, duration);
 }
-
 const ipInput = document.getElementById('ip-input');
 const addIpBtn = document.getElementById('add-ip-btn');
 
