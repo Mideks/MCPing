@@ -29,6 +29,10 @@
   --color-shadow: rgba(0, 0, 0, 0.1);
   --color-shadow-strong: rgba(0, 0, 0, 0.4);
   --color-shadow-focus: rgba(0, 0, 0, 0.15);
+
+  --color-link: #007acc;
+  --color-link-hover: #005fa3;
+  --color-link-visited: #6a8fb3;
 }
 
 [data-theme="dark"] {
@@ -62,39 +66,47 @@
   --color-shadow: rgba(0, 0, 0, 0.6);
   --color-shadow-strong: rgba(0, 0, 0, 0.8);
   --color-shadow-focus: rgba(255, 255, 255, 0.1);
+
+  --color-link: #4aa3ff;
+  --color-link-hover: #82c4ff;
+  --color-link-visited: #5599cc;
 }
 
 [data-theme="minecraft"] {
---color-background: #1e2b1b;            /* общий фон — тёмно-зелёный/землистый */
---color-surface: #2e3d27;               /* карточки/модалки — чуть светлее фона */
---color-surface-muted: #263522;         /* чередование строк, ховеры — слегка приглушённый */
---color-surface-overlay: rgba(46, 61, 39, 0.9); /* input'ы и полупрозрачные элементы */
+    --color-background: #1e2b1b;            /* общий фон — тёмно-зелёный/землистый */
+    --color-surface: #2e3d27;               /* карточки/модалки — чуть светлее фона */
+    --color-surface-muted: #263522;         /* чередование строк, ховеры — слегка приглушённый */
+    --color-surface-overlay: rgba(46, 61, 39, 0.9); /* input'ы и полупрозрачные элементы */
 
---color-text-primary: #dfe9d3;          /* основной текст — почти белый с лёгким зелёным оттенком */
---color-text-secondary: #aebfa3;        /* вторичный текст */
---color-text-inverse: #1e2b1b;          /* текст на светлом фоне — тёмный зелёный */
---color-text-error: #e07a5f;            /* ошибка — землянистый красный, не ядовитый */
+    --color-text-primary: #dfe9d3;          /* основной текст — почти белый с лёгким зелёным оттенком */
+    --color-text-secondary: #aebfa3;        /* вторичный текст */
+    --color-text-inverse: #1e2b1b;          /* текст на светлом фоне — тёмный зелёный */
+    --color-text-error: #e07a5f;            /* ошибка — землянистый красный, не ядовитый */
 
---color-border: #3c4f36;                /* обычная рамка — в тему */
---color-border-muted: #445843;          /* чуть мягче — для таблиц */
---color-border-focus: #88c57f;          /* фокус — мшистый лаймовый */
---color-border-focus-shadow: rgba(136, 197, 127, 0.3); /* подсветка в фокусе */
+    --color-border: #3c4f36;                /* обычная рамка — в тему */
+    --color-border-muted: #445843;          /* чуть мягче — для таблиц */
+    --color-border-focus: #88c57f;          /* фокус — мшистый лаймовый */
+    --color-border-focus-shadow: rgba(136, 197, 127, 0.3); /* подсветка в фокусе */
 
---color-primary: #6baa4d;               /* основной зелёный — как трава */
---color-primary-hover: #58943f;         /* при наведении — чуть темнее */
---color-accent: #9ddc8b;                /* яркий, но мягкий акцент */
+    --color-primary: #6baa4d;               /* основной зелёный — как трава */
+    --color-primary-hover: #58943f;         /* при наведении — чуть темнее */
+    --color-accent: #9ddc8b;                /* яркий, но мягкий акцент */
 
---color-button-bg: var(--color-primary);
---color-button-hover: var(--color-primary-hover);
+    --color-button-bg: var(--color-primary);
+    --color-button-hover: var(--color-primary-hover);
 
---color-toast-bg: #354b2d;              /* уведомление — будто табличка у входа в хижину */
+    --color-toast-bg: #354b2d;              /* уведомление — будто табличка у входа в хижину */
 
---color-spinner-base: #88a67f;
---color-spinner-top: #dfe9d3;
+    --color-spinner-base: #88a67f;
+    --color-spinner-top: #dfe9d3;
 
---color-shadow: rgba(0, 0, 0, 0.2);
---color-shadow-strong: rgba(0, 0, 0, 0.5);
---color-shadow-focus: rgba(136, 197, 127, 0.25);
+    --color-shadow: rgba(0, 0, 0, 0.2);
+    --color-shadow-strong: rgba(0, 0, 0, 0.5);
+    --color-shadow-focus: rgba(136, 197, 127, 0.25);
+
+    --color-link: #3fa144;
+    --color-link-hover: #62d166;
+    --color-link-visited: #2d6c31;
 }
 
 [data-theme="vulkan"] {
@@ -128,6 +140,10 @@
     --color-shadow: rgba(0, 0, 0, 0.2);
     --color-shadow-strong: rgba(0, 0, 0, 0.5);
     --color-shadow-focus: rgba(255, 138, 101, 0.25);
+
+    --color-link: #d32f2f;
+    --color-link-hover: #ef5350;
+    --color-link-visited: #9b2323;
 }
 
 html {
@@ -146,6 +162,16 @@ main {
   margin: 0 auto;
 }
 
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
 body:has(dialog[open]) {
   overflow: hidden;
 }
@@ -153,6 +179,20 @@ body:has(dialog[open]) {
 h1 {
   text-align: center;
   color: var(--color-text-primary);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+a:visited {
+  color: var(--color-link-visited);
 }
 
 table {
@@ -256,7 +296,6 @@ th.sortable.desc::after {
   border: 2px solid var(--color-button-hover);
   border-radius: 25px;
   background-color: var(--color-surface-overlay);
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
   outline: none;
   box-shadow: 0 1px 3px var(--color-shadow-focus);
 }
