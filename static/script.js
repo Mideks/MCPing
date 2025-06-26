@@ -69,11 +69,13 @@ function render(arr) {
         ping: ${s.ping} ms</br>
       </td>
       <td>${s.version}</td>
-      <td class="icon-motd">
-        <img src="${icon_url}" alt="server icon" />
-        <div class="motd">
-            ${s.motd.replace('\n', '<br>')}</br>
-            <a href='${s.map_link}'>Возможная ссылка на карту</a>
+      <td>
+        <div class="icon-motd">
+            <img src="${icon_url}" alt="server icon" />
+            <div class="motd">
+                ${s.motd.replace('\n', '<br>')}</br>
+                <a href='${s.map_link}'>Возможная ссылка на карту</a>
+            </div>
         </div>
       </td>
       <td>${s.online}/${s.max}<br/>${s.players.join(', ')}</td>
