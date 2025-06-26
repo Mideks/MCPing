@@ -4,3 +4,5 @@ build
 *.log
 settings.json
 test.py
+*.spec
+release_builds/

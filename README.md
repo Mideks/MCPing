@@ -76,6 +76,8 @@ pyinstaller --onefile app_console.py
 pyinstaller --onefile --add-data "templates;templates" --add-data "static;static" app_web.py    
 ```
 
+Или вы можете довериться скрипту-сборщику: `build.cmd`. Он автоматически соберёт обе версии и поместит их в папку `release_builds`
+
 ## ⚙️ Конфигурация
 
 Настройки хранятся в файле `config.json`. Их можно менять через веб-интерфейс или вручную:
