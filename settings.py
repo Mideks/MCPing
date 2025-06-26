@@ -13,9 +13,9 @@ class Settings(BaseModel):
         "135.148.104.247", "51.81.251.246"
     ])
     port_start: int = 25565
-    port_end: int = 25665
-    timeout: float = 2.5
-    concurrency_limit: int = 1000
+    port_end: int = 25700
+    timeout: float = 1
+    concurrency_limit: int = 100
 
     @classmethod
     def load(cls) -> "Settings":
