@@ -559,3 +559,36 @@ header h1 {
   font-size: 16px;
   cursor: pointer;
 }
+
+.banned {
+  opacity: 0.5;
+  font-style: italic;
+  /*background-color: var(--color-surface-muted);*/
+}
+
+.ban-btn {
+  font-size: 0.8em;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-muted);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  margin-top: 4px;
+  display: inline-block;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.ban-btn:hover {
+  background-color: var(--color-surface-overlay);
+  border-color: var(--color-border-focus);
+  color: var(--color-primary-hover);
+}
+
+.ban-status {
+  font-size: 0.75em;
+  color: var(--color-text-error);
+  font-style: italic;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}

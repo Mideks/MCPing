@@ -57,16 +57,29 @@ async function loadServers() {
 function render(arr) {
   const tbody = document.querySelector('#servers tbody');
   tbody.innerHTML = '';
+
   arr.forEach((s, i) => {
     const tr = document.createElement('tr');
-    const icon_url = s.icon ? s.icon : "/static/default_icon.png" ;
+    const icon_url = s.icon ? s.icon : "/static/default_icon.png";
+    const address = `${s.ip}:${s.port}`;
+    const motd = s.motd.trim();
+
+    const isBanned = isServerBanned(address, motd);
+    if (isBanned) {
+      tr.classList.add('banned');
+    }
+    const banButton = isBanned
+      ? `<div class="ban-status">🚫 Помечен как забаненный</div>
+         <button class="ban-btn" onclick="unbanServer('${address}', \`${motd.replace(/`/g, '\\`')}\`)">Снять пометку</button>`
+      : `<button class="ban-btn" onclick="banServer('${address}', \`${motd.replace(/`/g, '\\`')}\`)">🚫 Меня забанили</button>`;
 
     tr.innerHTML = `
-      <td>${i+1}</td>
+      <td>${i + 1}</td>
       <td class="info-cell">
         ${s.ip}:${s.port}</br>
         ${s.location}</br>
         ping: ${s.ping} ms</br>
+        ${banButton}
       </td>
       <td>${s.version}</td>
       <td>
@@ -80,10 +93,11 @@ function render(arr) {
       </td>
       <td>${s.online}/${s.max}<br/>${s.players.join(', ')}</td>
     `;
+
     tbody.appendChild(tr);
   });
-  filter();    // применить текущий фильтр
-  // clearSort(); // сбросить стрелки
+
+  filter(); // применить текущий фильтр
 }
 
 function filter() {
@@ -312,3 +326,66 @@ toggleBtn.addEventListener('click', () => {
   applyTheme(next);
   showToast(`Выбрана тема ${next}`);
 });
+
+
+function isServerBanned(address, motd) {
+  const bans = JSON.parse(localStorage.getItem("bans") || "{}");
+  const entry = bans[address];
+  if (!entry) return false;
+
+  const now = Date.now();
+  const maxAge = 3 * 60 * 60 * 1000; // 3 часа
+
+  if (now - entry.timestamp > maxAge) {
+    delete bans[address];
+    localStorage.setItem("bans", JSON.stringify(bans));
+    return false;
+  }
+
+  return entry.motd === motd;
+}
+
+function isServerBanned(address, currentMotd) {
+  const bans = JSON.parse(localStorage.getItem("bans") || "{}");
+  const entry = bans[address];
+  if (!entry) return false;
+
+  const now = Date.now();
+  const maxAge = 3 * 60 * 60 * 1000; // 3 часа
+
+  if (now - entry.timestamp > maxAge || entry.motd !== currentMotd) {
+    // Срок истёк или motd изменился — сбросить бан
+    markAsBanned(address, currentMotd, false)
+    localStorage.setItem("bans", JSON.stringify(bans));
+    return false;
+  }
+
+  return true;
+}
+
+
+function markAsBanned(address, motd, state=true) {
+  const bans = JSON.parse(localStorage.getItem("bans") || "{}");
+  if (state) {
+    bans[address] = {
+        motd: motd,
+        timestamp: Date.now()
+    };
+  } else {
+    delete bans[address];
+  }
+
+  localStorage.setItem("bans", JSON.stringify(bans));
+}
+
+function banServer(address, motd) {
+  markAsBanned(address, motd);
+  render(data);
+  showToast(`Сервер ${address} отмечен как "забанивший". Он будет скрыт на 3 часа или до смены описания.`, 5000);
+}
+
+function unbanServer(address, motd) {
+  markAsBanned(address, motd, false);
+  render(data);
+  showToast(`С сервера ${address} снята пометка "забанивший"`, 5000);
+}
