@@ -12,7 +12,7 @@ echo [*] Сборка консольной версии...
 pyinstaller --onefile app_console.py --name mcping_console
 
 echo [*] Сборка веб-версии...
-pyinstaller --onefile ^
+pyinstaller --onefile --noconsole^
  --add-data "templates;templates" ^
  --add-data "static;static" ^
  app_web.py --name mcping_web
