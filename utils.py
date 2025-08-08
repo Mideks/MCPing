@@ -80,7 +80,7 @@ async def scan_ips(ips: list[str]) -> list[ServerInfo]:
     tasks = []
     for ip in ips:
         location = await get_location(ip)
-        print(f"🔍 Сканирование {ip} ({location}) порты {settings.port_start}–{settings.port_end}")
+        logging.info(f"🔍 Сканирование {ip} ({location}) порты {settings.port_start}–{settings.port_end}")
         tasks.extend([
             mc_ping(ip, port, sem, location)
             for port in range(settings.port_start, settings.port_end + 1)

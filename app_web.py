@@ -1,18 +1,27 @@
+import logging
 import os
 import sys
 import threading
 
 import uvicorn
+import webview
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import JSONResponse
 
 from settings import Settings, settings
 from utils import scan_ips
 from models import ServerInfo
 
 app = FastAPI()
+logging.basicConfig(
+    filename='log.txt',
+    level=logging.INFO,
+    encoding='utf-8',
+    format='%(asctime)s %(levelname)s: %(message)s'
+)
 
 
 if getattr(sys, 'frozen', False):  # Если упаковано в .exe
@@ -44,6 +53,7 @@ def update_settings(new_settings: Settings):
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+
 @app.get("/servers")
 async def api_servers():
     servers: list[ServerInfo] = []
@@ -52,11 +62,19 @@ async def api_servers():
     return {"servers": servers}
 
 
-def open_browser():
-    import webbrowser
-    webbrowser.open("http://127.0.0.1:8000")
+@app.exception_handler(Exception)
+async def all_exception_handler(request, exc):
+    logging.exception(f"Unhandled error: {exc}")
+    return JSONResponse(status_code=500, content={"detail": "Internal server error (known)"})
 
-if __name__ == "__main__":
-    # Авто‑открытие браузера
-    threading.Timer(1, open_browser).start()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+def start_api():
+    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="debug")
+
+
+if __name__ == '__main__':
+    threading.Thread(target=start_api, daemon=True).start()
+    webview.create_window("MCPing", "http://127.0.0.1:8000", width=1200, height=800, text_select=True,)
+    webview.settings['OPEN_DEVTOOLS_IN_DEBUG'] = False
+    webview.start(debug=True, private_mode=False)
+

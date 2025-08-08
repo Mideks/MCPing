@@ -87,7 +87,7 @@ function render(arr) {
             <img src="${icon_url}" alt="server icon" />
             <div class="motd">
                 ${s.motd.replace('\n', '<br>')}</br>
-                <a href='${s.map_link}'>Возможная ссылка на карту</a>
+                <a href='${s.map_link}' target="_blank" rel="noopener noreferrer">Возможная ссылка на карту</a>
             </div>
         </div>
       </td>
